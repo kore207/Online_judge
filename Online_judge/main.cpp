@@ -6,41 +6,75 @@
 //  Copyright © 2018 Kim GT . All rights reserved.
 //
 
-#include <iostream>
-using namespace std;
+//#include <iostream>
+//using namespace std;
+//
+//int main(int argc, const char * argv[]) {
+//    // insert code here...
+//    int init_num ;
+//    int sec_num;
+//    int com_num = 0;
+//    bool else_flag = false;
+//    int cnt = 0 ;
+//    cin >> init_num ;
+//    if(init_num <10)
+//    {
+//        else_flag = true ;
+//        init_num = init_num * 10 ;
+//    }
+//    int digit_num[2] ;
+//    int temp_digit[2] ;
+//    digit_num[0] = init_num / 10 ;
+//    digit_num[1] = init_num - (digit_num[0]*10) ;
+//
+//    while(com_num != init_num)
+//    {
+//        if(else_flag == true)
+//        {
+//            init_num = init_num / 10 ;
+//        }
+//        cnt++ ;
+//        sec_num = digit_num[0] + digit_num[1] ;
+//        if(sec_num > 9)
+//        {
+//            temp_digit[0] = sec_num / 10 ;
+//            temp_digit[1] = sec_num - (temp_digit[0] * 10) ;
+//            com_num = (digit_num[1] * 10) + temp_digit[1] ;
+//        }
+//        else
+//        {
+//            com_num = (digit_num[1] * 10) + sec_num ;
+//        }
+//
+//        digit_num[0] = com_num /10 ;
+//        digit_num[1] = com_num - (digit_num[0]*10) ;
+//
+//    }
+//    cout << cnt ;
+//
+//    return 0 ;
+//
+//}
+#include <stdio.h>
 
-int main(int argc, const char * argv[]) {
-    // insert code here...
-    int std_num;
-    int std_score[1000] ;
-    float std_sum = 0;
-    float std_avg ;
-    int avg_up = 0;
-    float avg_ratio = 0 ;
-    int part_num ;
-    cin >> part_num ;
-    cout << fixed ;
-    cout.precision(3) ;
-    for(int i = 0; i< part_num; i++)
-    {
-        cin >> std_num ;
-        for(int j = 0; j < std_num ; j ++)
-        {
-            cin >> std_score[j] ;
-            std_sum += std_score[j] ;
-        }
-        std_avg = std_sum / std_num ;
-        for(int k = 0 ; k <std_num ; k++)
-        {
-            if(std_score[k] > std_avg)
-                avg_up++ ;
-        }
-        avg_ratio = (float)avg_up / (float)std_num ;
-        cout << avg_ratio*100 <<"%"<<endl ;
-//        std_avg = 0;
-        avg_up = 0 ;
-        std_sum = 0 ;
-        
+int main(void){
+    int number;
+    int count = 0;
+    int A, B, C , Add;
+    scanf("%d", &number);
+    Add = number;
+    while (Add != number || count==0){
+        A = Add / 10;
+        B = Add % 10;
+        C = (A + B) % 10;
+        A = B; B = C;
+        Add = A * 10 + B;
+        count++;
     }
-    return 0 ;
+    
+    printf("%d\n", count);
+    
 }
+
+
+
