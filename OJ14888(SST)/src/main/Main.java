@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class Main {
 	
 	static int N;
-	static int min = Integer.MAX_VALUE ;
+	static int min = Integer.MAX_VALUE ; // MAX, MIN 값이 맞지 않아 오탑 처리 되었었
 	static int max = Integer.MIN_VALUE;
 	static int [] An ;
 	static int [] op; // + - * /
@@ -13,8 +13,7 @@ public class Main {
 	
 	
 
-	public static void main(String[] args) {
-		
+	public static void main(String[] args) {		  
 		Scanner sc = new Scanner(System.in);
 		N = sc.nextInt();			
 		An = new int [N];
@@ -28,7 +27,7 @@ public class Main {
 		
 		sc.close();
 		
-		dfs(An[0], 0);
+		dfs(An[0], 0);//brute-force : dfs 로 모든 값을 탐색 후 최종 값 출력한다. 
 					
 		System.out.println(max);
 		System.out.println(min);
