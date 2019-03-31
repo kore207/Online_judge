@@ -1,131 +1,70 @@
-package dragonCurve;
-
-import java.util.Scanner;
-
-public class Main {
-
-	static int N = 0;
-	static int [] X ;
-	static int [] Y ;
-	static int [] D ;
-	static int [] G ;
-	static int [][] map = new int [101][101]  ;
-	static int [][] H = new int [10][1025]; //최대 버퍼 개수는 2^세대 
-	static int count = 1;
-	
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		Scanner sc = new Scanner(System.in);
-		N = sc.nextInt() ;
-		
-		X =new int [N];
-		Y =new int [N];
-		D =new int [N];
-		G =new int [N];
-		
-				
-		for(int i = 0 ; i < N; i++) //초기 값 입력 
-		{
-			X[i] =sc.nextInt();
-			Y[i] =sc.nextInt();
-			D[i] =sc.nextInt();
-			G[i] =sc.nextInt();
-		}
-		
-		
-		for(int i=0; i<N; i++)
-			dragoncurve(i) ;
-	}
-	
-	public static void dragoncurve(int i) {
-		map[X[i]][Y[i]] = 1;
-		
-		
-		H[i][count -1] =D[i];
-		
-		int curX, curY = 0 ;
-		
-		if(H[i][count -1] == 0) {
-			map[X[i] + 1][Y[i]] = 1 ;
-			curX = X[i] + 1 ;
-			curY = Y[i] ;
-			count *= 2 ;
-			
-			genCurve(i,count,G[i], curX, curY) ;
-		}
-		else if(H[i][count -1] == 1) {
-			map[X[i]][Y[i] - 1] = 1 ;
-			curX = X[i]  ;
-			curY = Y[i]-1 ;
-			count *= 2 ;
-			
-			genCurve(i,count,G[i], curX, curY) ;
-		}
-		else if(H[i][count -1] == 2) {
-			map[X[i] - 1][Y[i]] = 1 ;
-			curX = X[i] - 1 ;
-			curY = Y[i] ;
-			count *= 2 ;
-			
-			genCurve(i,count,G[i], curX, curY) ;
-		}
-		else if(H[i][count -1] == 3) {
-			map[X[i]][Y[i] + 1] = 1 ;
-			curX = X[i] ;
-			curY = Y[i] + 1;
-			count *= 2 ;
-			
-			genCurve(i,count,G[i], curX, curY) ;
-		}
-			
-		
-	}
-	
-	public static void genCurve(int num, int count, int generation, int curX, int curY) {
-		if(generation < 1)
-		{
-			count = 1;
-			return ;
-		}
-		
-		for(int j = 0; j < count/2; j++)
-		{
-			H[num][(count/2) + j] =  H[num][(count/2) - j - 1] + 1 ;
-			if(H[num][(count/2) + j] == 4)
-				H[num][(count/2) + j] = 0 ;
-		}
-		
-		
-		int c = count /2 ;
-		for(int k =c ; k <count; k++)
-		{			
-			if(H[num][k] == 0) {
-				map[curX+1][curY] = 1;
-				curX++;
-			}
-			else if(H[num][k] == 1) {
-				map[curX][curY-1] = 1;
-				curY--;				
-			}
-			else if(H[num][k] == 2) {
-				map[curX-1][curY] = 1;
-				curX--;
-			}
-			else if(H[num][k] == 3) {
-				map[curX][curY+1] = 1;
-				curY++;
-			}			
-			
-		}
-		count *= 2 ;
-		genCurve(num, count, G[num]-1, curX, curY );
-		
-		
-		
-		
-	}
-		
-		
-		
-}
-
+package dragonCurve ;
+import java.io.*;
+ import java.util.StringTokenizer;
+ 
+ public class Main {
+     static int [][]Map = new int[101][101];
+     static int [][]arrow = {{1,0},{0,-1},{-1,0},{0,1}};
+ 
+     public static void main(String[] args) throws IOException {
+         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+         int N = Integer.parseInt(br.readLine());
+         StringTokenizer st;
+         int point[] = new int[2];
+         int startDirection , generation;
+ 
+ 
+         for (int i = 0; i <N ; i++) {
+             st = new StringTokenizer(br.readLine());
+             point[0] = Integer.parseInt(st.nextToken()); // x
+             point[1] = Integer.parseInt(st.nextToken()); // y 
+             startDirection = Integer.parseInt(st.nextToken());
+             generation = Integer.parseInt(st.nextToken());
+ 
+             Map[point[0]][point[1]] = 1;
+ 
+             int []directions = new int [(int)Math.pow(2,generation)];
+             directions[0] = startDirection;
+ 
+             makedirecionts(directions,1,generation);
+             draw(point, directions,generation);
+         }
+ 
+ 
+         System.out.println(countMap());
+     }
+ 
+     private static int countMap() {
+         int cnt=0;
+         for (int i=0;i<99;i++){
+            // for (int j = 0; j <100 ; j++) {
+                 if(Map[i][i]==1 && Map[i][i+1]==1 && Map[i+1][i]==1 && Map[i+1][i+1]==1) //사각형 
+                     cnt++;
+             //}
+         }
+         return cnt;
+     }
+ 
+     private static void draw(int[] point, int[] directions , int generation) {
+         int nextX,nextY;
+         for (int i = 0; i <(int)Math.pow(2,generation) ; i++) {
+             nextX = point[0] + arrow[directions[i]][0]; // arrow는 xy 번갈아 가며 상하 좌우  
+             nextY = point[1] + arrow[directions[i]][1];
+ 
+             Map[nextX][nextY] = 1;
+ 
+             point[0] = nextX;
+             point[1] = nextY;
+         }
+     }
+ 
+     private static void makedirecionts(int[] directions, int n, int generation) {
+         if (n==(int)Math.pow(2,generation)) //after N generation , there are 2^N directions in arr.
+             return;
+ 
+         for (int i=0; i<n; i++)
+             directions[n+i] = (directions[n-i-1]+1) % 4;
+ 
+         makedirecionts(directions,n*2,generation); //recursion 
+     }
+ }
