@@ -36,11 +36,11 @@ import java.io.*;
  
      private static int countMap() {
          int cnt=0;
-         for (int i=0;i<99;i++){
-            // for (int j = 0; j <100 ; j++) {
-                 if(Map[i][i]==1 && Map[i][i+1]==1 && Map[i+1][i]==1 && Map[i+1][i+1]==1) //사각형 
+         for (int i=0;i<100;i++){
+             for (int j = 0; j <100 ; j++) {
+                 if(Map[i][j]==1 && Map[i][j+1]==1 && Map[i+1][j]==1 && Map[i+1][j+1]==1) //사각혀
                      cnt++;
-             //}
+             }
          }
          return cnt;
      }
